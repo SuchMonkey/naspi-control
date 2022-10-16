@@ -39,7 +39,7 @@ jobs:
               uses: ClementTsang/cargo-deb-arm@v0.0.2-alpha
               with:
                   working-directory: .
-                  args: --target armv7-unknown-linux-musleabihf
+                  args: --target stable-armv7-unknown-linux-gnueabihf
             - name: Upload Deb Artifact
               uses: actions/upload-artifact@master
               with:
