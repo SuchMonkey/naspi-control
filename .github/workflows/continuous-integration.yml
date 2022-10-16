@@ -38,7 +38,7 @@ jobs:
               id: debbuild
               uses: ClementTsang/cargo-deb-arm@v0.0.2-alpha
               with:
-                  working-directory: 
+                  working-directory: .
                   args: --target armv7-unknown-linux-musleabihf
             - name: Upload Deb Artifact
               uses: actions/upload-artifact@master
