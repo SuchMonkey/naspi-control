@@ -14,7 +14,7 @@ impl FanControl {
         Ok(Self {
             pwm: Pwm::with_frequency(Channel::Pwm0, 25000.0, 1.0, Polarity::Normal, true)?,
             sys: System::new(),
-            temp_range: (30.0, 75.0),
+            temp_range: (30.0, 70.0),
         })
     }
 
