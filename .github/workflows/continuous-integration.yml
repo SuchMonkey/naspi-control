@@ -1,0 +1,46 @@
+on:
+    push:
+        branches:
+            - main
+
+name: Continuous Integration
+
+jobs:
+    quickcheck:
+        runs-on: ubuntu-latest
+        outputs:
+            version: ${{ steps.rustversion.outputs.rustversion }}
+        steps:
+            - uses: actions/checkout@v2
+            - run: cargo check
+            - run: cargo pkgid
+            - run: 'echo "$(cargo pkgid | cut -d# -f2)"'
+            - id: rustversion
+              run: 'echo "::set-output name=rustversion::$(cargo pkgid | cut -d# -f2)"'
+    build:
+        needs: quickcheck
+        name: "build-${{matrix.os}}"
+        runs-on: ${{ matrix.os }}
+        strategy:
+            matrix:
+                os: [ubuntu-latest]
+        steps:
+            - uses: actions/checkout@v2
+            - name: Build
+              run: cargo build
+            - name: Run tests
+              run: cargo test
+    raspbianbuild:
+        needs: [build]
+        runs-on: ubuntu-latest
+        name: Armv7Deb
+        steps:
+            - uses: actions/checkout@v2
+            - name: BuildDeb
+            id: debbuild
+            uses: ebbflow-io/cargo-deb-armv7-debian@1.0
+            - name: Upload Deb Artifact
+            uses: actions/upload-artifact@v2
+            with:
+                name: armv7deb
+                path: ./target/armv7-unknown-linux-musleabihf/debian/*
