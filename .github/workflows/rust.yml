@@ -21,5 +21,6 @@ jobs:
     - name: Run tests
       run: cargo test --verbose
     - name: Rust Cargo Deb Package Build (armv7, Debian)
+      uses: ebbflow-io/cargo-deb-armv7-debian@1.47.0-1
       with:
         cmd: cargo deb --target=armv7-unknown-linux-musleabihf
