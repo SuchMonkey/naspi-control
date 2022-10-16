@@ -1,22 +1,20 @@
+name: Continuous Integration
 on:
     push:
         branches:
             - main
-
-name: Continuous Integration
-
 jobs:
     quickcheck:
         runs-on: ubuntu-latest
         outputs:
             version: ${{ steps.rustversion.outputs.rustversion }}
         steps:
-        - uses: actions/checkout@master
-        - run: cargo check
-        - run: cargo pkgid
-        - run: 'echo "$(cargo pkgid | cut -d# -f2)"'
-        - id: rustversion
-            run: 'echo "::set-output name=rustversion::$(cargo pkgid | cut -d# -f2)"'
+            - uses: actions/checkout@master
+            - run: cargo check
+            - run: cargo pkgid
+            - run: 'echo "$(cargo pkgid | cut -d# -f2)"'
+            - id: rustversion
+              run: 'echo "::set-output name=rustversion::$(cargo pkgid | cut -d# -f2)"'
     build:
         needs: quickcheck
         name: "build-${{matrix.os}}"
@@ -25,22 +23,22 @@ jobs:
             matrix:
                 os: [ubuntu-latest]
         steps:
-        - uses: actions/checkout@master
-        - name: Build
-            run: cargo build
-        - name: Run tests
-            run: cargo test
+            - uses: actions/checkout@master
+            - name: Build
+              run: cargo build
+            - name: Run tests
+              run: cargo test
     raspbianbuild:
-        needs: [build]
+        needs: build
         runs-on: ubuntu-latest
         name: Armv7Deb
         steps:
-        - uses: actions/checkout@master
-        - name: BuildDeb
-        id: debbuild
-        uses: ebbflow-io/cargo-deb-armv7-debian@1.47.0-1
-        - name: Upload Deb Artifact
-        uses: actions/upload-artifact@master
-        with:
-            name: armv7deb
-            path: ./target/armv7-unknown-linux-musleabihf/debian/*
+            - uses: actions/checkout@master
+            - name: BuildDeb
+              id: debbuild
+              uses: ebbflow-io/cargo-deb-armv7-debian@1.47.0-1
+            - name: Upload Deb Artifact
+              uses: actions/upload-artifact@master
+              with:
+                  name: armv7deb
+                  path: ./target/armv7-unknown-linux-musleabihf/debian/*
