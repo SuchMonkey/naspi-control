@@ -4,6 +4,8 @@ description = "Controls Geekworm NasPI HW"
 version = "0.1.0"
 edition = "2021"
 authors = ["David Duregger <suchmonkey@protonmail.com>"]
+license = "MIT"
+readme = "README.md"
 
 [dependencies]
 rppal = "0.13.1"
@@ -12,4 +14,4 @@ simple-signal = "1.1.1"
 
 [package.metadata.deb]
 maintainer-scripts = "debian/"
-systemd-units = { unit-name = "naspi-control", enable = false }
+systemd-units = { enable = true, start = true }
