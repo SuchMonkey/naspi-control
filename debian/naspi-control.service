@@ -2,6 +2,7 @@
 Description=NasPi Control
 
 [Service]
+ExecStartPre=/bin/sleep 10
 ExecStart=/usr/bin/naspi-control
 
 [Install]
