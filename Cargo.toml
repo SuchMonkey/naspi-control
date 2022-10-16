@@ -1,9 +1,15 @@
 [package]
 name = "naspi-control"
+description = "Controls Geekworm NasPI HW"
 version = "0.1.0"
 edition = "2021"
+authors = ["David Duregger <suchmonkey@protonmail.com>"]
 
 [dependencies]
 rppal = "0.13.1"
 systemstat = "0.2.0"
 simple-signal = "1.1.1"
+
+[package.metadata.deb]
+maintainer-scripts = "debian/"
+systemd-units = { unit-name = "naspi-control", enable = false }

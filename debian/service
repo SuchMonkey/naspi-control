@@ -1,0 +1,8 @@
+[Unit]
+Description=NasPi Control
+
+[Service]
+ExecStart=/usr/bin/naspi-control
+
+[Install]
+WantedBy=multi-user.target
