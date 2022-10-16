@@ -6,15 +6,15 @@ on:
 jobs:
     quickcheck:
         runs-on: ubuntu-latest
-        outputs:
-            version: ${{ steps.rustversion.outputs.rustversion }}
         steps:
             - uses: actions/checkout@master
             - run: cargo check
             - run: cargo pkgid
-            - run: 'echo "$(cargo pkgid | cut -d# -f2)"'
+            - run: |
+                  echo "$(cargo pkgid | cut -d# -f2)"
             - id: rustversion
-              run: 'echo "::set-output name=rustversion::$(cargo pkgid | cut -d# -f2)"'
+              run: |
+                  echo "rustversion=$(cargo pkgid | cut -d# -f2)" >> $GITHUB_ENV
     build:
         needs: quickcheck
         name: "build-${{matrix.os}}"
@@ -36,7 +36,10 @@ jobs:
             - uses: actions/checkout@master
             - name: BuildDeb
               id: debbuild
-              uses: ebbflow-io/cargo-deb-armv7-debian@1.47.0-1
+              uses: ClementTsang/cargo-deb-arm@v0.0.2-alpha
+              with:
+                  working-directory: 
+                  args: --target armv7-unknown-linux-musleabihf
             - name: Upload Deb Artifact
               uses: actions/upload-artifact@master
               with:
