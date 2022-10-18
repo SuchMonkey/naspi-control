@@ -20,4 +20,23 @@ dtoverlay=pwm
 ...
 ```
 
-Then start the script.
+# Build Debian Package
+
+You can build a Debian package with `cargo-deb`.
+
+**Installing `cargo-deb` globally**
+
+``` bash
+    cargo install cargo-deb
+```
+
+**Build and install with `cargo-deb`**
+
+``` bash
+    cargo-deb --install
+```
+The Debian package includes a systemd service unit. After installation check if the service `naspi-control` is enabled and started.
+
+``` bash
+    systemctl status naspi-control
+```
