@@ -7,7 +7,7 @@ jobs:
     quickcheck:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@master
+            - uses: actions/checkout@v2
             - run: cargo check
             - run: cargo pkgid
             - run: |
@@ -23,7 +23,7 @@ jobs:
             matrix:
                 os: [ubuntu-latest]
         steps:
-            - uses: actions/checkout@master
+            - uses: actions/checkout@v2
             - name: Build
               run: cargo build
             - name: Run tests
@@ -33,15 +33,12 @@ jobs:
         runs-on: ubuntu-latest
         name: Armv7Deb
         steps:
-            - uses: actions/checkout@master
+            - uses: actions/checkout@v2
             - name: BuildDeb
               id: debbuild
-              uses: ClementTsang/cargo-deb-arm@v0.0.2-alpha
-              with:
-                  working-directory: .
-                  args: --target stable-armv7-unknown-linux-gnueabihf
+              uses: ebbflow-io/cargo-deb-armv7-debian@1.0
             - name: Upload Deb Artifact
-              uses: actions/upload-artifact@master
+              uses: actions/upload-artifact@v2
               with:
                   name: armv7deb
                   path: ./target/armv7-unknown-linux-musleabihf/debian/*
